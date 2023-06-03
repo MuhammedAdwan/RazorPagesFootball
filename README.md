@@ -10,3 +10,4 @@
  Scaffolded the football model
  
 
+dotnet-aspnet-codegenerator razorpage -m Football -dc RazorPagesFootballContext -udl -outDir Pages/FootBall --referenceScriptLibraries -sqlite
