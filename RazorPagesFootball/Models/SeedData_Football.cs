@@ -13,7 +13,7 @@ namespace RazorPagesFootball.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<RazorPagesFootballContext>>()))
             {
-                // Look for any movies.
+                // Look for any Football club.
                 if (context.Football.Any())
                 {
                     return;   // DB has been seeded
