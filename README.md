@@ -16,3 +16,6 @@ dotnet-aspnet-codegenerator razorpage -m Football -dc RazorPagesFootballContext 
 
 dotnet ef migrations add BestPlayerShirtNumber
 dotnet ef migrations add CoachCountry
+
+dotnet ef database BestPlayerShirtNumber
+dotnet ef database BestPlayerShirtNumber
