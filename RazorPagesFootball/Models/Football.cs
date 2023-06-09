@@ -13,8 +13,11 @@ namespace RazorPagesFootball.Models
         public string Country { get; set; }
         public int WinningTimes { get; set; }
         public string BestPlayer { get; set; }
-
         public string CoachName { get; set; }
+        public int BestPlayerShirtNumber { get; set; }
+        public string CoachCountry { get; set; }
+
+
 
     }
 }
