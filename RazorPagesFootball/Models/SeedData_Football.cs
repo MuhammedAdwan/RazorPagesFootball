@@ -27,7 +27,10 @@ namespace RazorPagesFootball.Models
                         Country = "Spain",
                         WinningTimes = 35,
                         BestPlayer = "Karim Benzima",
-                        CoachName = "Zidan"
+                        CoachName = "Zidan",
+                        BestPlayerShirtNumber = 9,
+                        CoachCountry = "France",
+
 
 
                     },
@@ -39,7 +42,9 @@ namespace RazorPagesFootball.Models
                         Country = "Spain",
                         WinningTimes = 0,
                         BestPlayer = "Ousman Dembele",
-                        CoachName = "Xavi"
+                        CoachName = "Xavi",
+                        BestPlayerShirtNumber = 11,
+                        CoachCountry = "Spain",
                     },
 
                     new Football
@@ -49,7 +54,9 @@ namespace RazorPagesFootball.Models
                         Country = "France",
                         WinningTimes = 1,
                         BestPlayer = "Messi",
-                        CoachName = "Christophe Galtier"
+                        CoachName = "Christophe Galtier",
+                        BestPlayerShirtNumber = 10,
+                        CoachCountry = "France",
                     },
 
                     new Football
@@ -59,7 +66,9 @@ namespace RazorPagesFootball.Models
                         Country = "United Kingdom",
                         WinningTimes = 5,
                         BestPlayer = "Mehrez",
-                        CoachName = "Pep Guardiola"
+                        CoachName = "Pep Guardiola",
+                        BestPlayerShirtNumber = 11,
+                        CoachCountry = "Spain"
                     },
 
                        new Football
@@ -69,7 +78,9 @@ namespace RazorPagesFootball.Models
                         Country = "Germany",
                         WinningTimes = 6,
                         BestPlayer = "Erling Haaland",
-                        CoachName = "Edin Terzić"
+                        CoachName = "Edin Terzić",
+                        BestPlayerShirtNumber = 9,
+                        CoachCountry = "Norway"
                     }
 
                     
