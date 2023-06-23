@@ -19,3 +19,7 @@ dotnet ef migrations add CoachCountry
 
 dotnet ef database BestPlayerShirtNumber
 dotnet ef database BestPlayerShirtNumber
+
+************Assignment 3************
+Deleting previous project
+
