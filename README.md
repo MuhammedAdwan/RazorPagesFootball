@@ -23,4 +23,4 @@ dotnet ef database BestPlayerShirtNumber
 ************Assignment 3************
 Deleting previous project
 Creating my index home page
-
+updating the counter page
