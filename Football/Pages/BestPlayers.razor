@@ -1,0 +1,40 @@
+@page "/BestPlayers"
+
+<h1>Welcome to @myTheme - Best Player page</h1>
+<p></p>
+
+<button class="primary" @onclick="DisplayPlayerName">Show me the Best Players</button>
+
+<ol>
+    @foreach (var PlayerName in PlayerNames)
+    {
+        <li>@PlayerName</li>
+    }
+</ol>
+
+@code {
+    private string[] PlayerNames { get; set; }
+    private string myTheme = "Football Best Players";
+
+    protected override void OnInitialized()
+    {
+        PlayerNames = new string[0];
+    }
+
+    private void DisplayPlayerName()
+    {
+        PlayerNames = new string[]
+        {
+            "Carlos Valderrama",
+            "Ronaldo De Lima",
+            "Ronaldinho",
+            "Roberto Carlos",
+            "Omar Gabriel Batistuta",
+            "Ortega",
+            "Maradona",
+            "Zidan",
+            "Kaka",
+            "Cafu"
+        };
+    }
+}
