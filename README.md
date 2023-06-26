@@ -27,3 +27,8 @@ dotnet new blazorserver -o Football -f net5.0
 Deleting previous project
 Creating my index home page
 updating the counter page
+creating a new component page
+added the link to the side navigation
+added empty string
+addded the button
+displaying the string
