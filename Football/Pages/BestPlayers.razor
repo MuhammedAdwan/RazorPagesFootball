@@ -4,6 +4,8 @@
 <p></p>
 
 <button class="primary" @onclick="DisplayPlayerName">Show me the Best Players</button>
+<input type="number" @bind="@limitOfPlayers">
+
 
 <ol>
     @foreach (var PlayerName in PlayerNames.Take(limitOfPlayers))
@@ -12,7 +14,6 @@
     }
 </ol>
 
-<input type="number" @bind="@limitOfPlayers">
 
 @code {
     private int limitOfPlayers = 5;

@@ -32,3 +32,5 @@ added the link to the side navigation
 added empty string
 addded the button
 displaying the string
+added the input tag, set the value property and create a new method to accept a single integer
+
