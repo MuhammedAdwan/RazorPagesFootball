@@ -21,6 +21,9 @@ dotnet ef database BestPlayerShirtNumber
 dotnet ef database BestPlayerShirtNumber
 
 ************Assignment 3************
+
+dotnet new blazorserver -o Football -f net5.0
+
 Deleting previous project
 Creating my index home page
 updating the counter page
