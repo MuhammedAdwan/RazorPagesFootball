@@ -6,14 +6,19 @@
 <button class="primary" @onclick="DisplayPlayerName">Show me the Best Players</button>
 
 <ol>
-    @foreach (var PlayerName in PlayerNames)
+    @foreach (var PlayerName in PlayerNames.Take(limitOfPlayers))
     {
         <li>@PlayerName</li>
     }
 </ol>
 
+<input type="number" @bind="@limitOfPlayers">
+
 @code {
+    private int limitOfPlayers = 5;
+
     private string[] PlayerNames { get; set; }
+
     private string myTheme = "Football Best Players";
 
     protected override void OnInitialized()
