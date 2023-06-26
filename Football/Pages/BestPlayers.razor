@@ -4,7 +4,7 @@
 <p></p>
 
 <button class="primary" @onclick="DisplayPlayerName">Show me the Best Players</button>
-<input type="number" @bind="@limitOfPlayers">
+<input type="number" @bind="@limitOfPlayers" min="0" max="@PlayerNames.Length" bind ="limitOfPlayers">
 
 
 <ol>
@@ -40,7 +40,8 @@
             "Maradona",
             "Zidan",
             "Kaka",
-            "Cafu"
+            "Cafu",
+            "Casemiro"
         };
     }
 }
