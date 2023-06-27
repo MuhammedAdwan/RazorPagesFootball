@@ -4,7 +4,7 @@
 <p></p>
 
 <button class="primary" @onclick="DisplayPlayerName">Show me the Best Players</button>
-<input type="number" @bind="@limitOfPlayers" min="0" max="@PlayerNames.Length" bind ="limitOfPlayers">
+<input type="number" @bind="@limitOfPlayers" min="0" max="@PlayerNames.Length">
 
 
 <ol>
@@ -31,17 +31,27 @@
     {
         PlayerNames = new string[]
         {
-            "Carlos Valderrama",
-            "Ronaldo De Lima",
-            "Ronaldinho",
-            "Roberto Carlos",
-            "Omar Gabriel Batistuta",
-            "Ortega",
-            "Maradona",
-            "Zidan",
-            "Kaka",
-            "Cafu",
-            "Casemiro"
+"Carlos Valderrama",
+"Ronaldo De Lima",
+"Ronaldinho",
+"Roberto Carlos",
+"Omar Gabriel Batistuta",
+"Ortega",
+"Maradona",
+"Zidan",
+"Kaka",
+"Cafu",
+"Casemiro"
         };
+    }
+
+    private void newLimitOfPlayers(int newLimit)
+    {
+        if (newLimit < 0 || newLimit > 5)
+        {
+            return;
+        }
+
+        limitOfPlayers = newLimit;
     }
 }
