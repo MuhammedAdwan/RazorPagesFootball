@@ -12,7 +12,7 @@
 <div class="form-group">
     <label>
         Message:
-        <input @bind="messageInput" size="50" @oninput="UserTyping" disabled="@(!IsConnected)" />
+        <input @bind="messageInput" size="50" @onclick="HandleMessageClick" @oninput="UserTyping" disabled="@(!IsConnected)" />
     </label>
 </div>
 <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
@@ -76,6 +76,14 @@
 
     async Task AMessage() =>
         await hubConnection.SendAsync("AMessage", userInput);
+
+    private void HandleMessageClick()
+    {
+        if (!string.IsNullOrEmpty(userInput))
+        {
+            hubConnection.SendAsync("UserTyping", userInput);
+        }
+    }
 
     private async Task UserTyping()
     {
