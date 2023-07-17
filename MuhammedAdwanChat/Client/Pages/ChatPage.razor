@@ -12,7 +12,7 @@
 <div class="form-group">
     <label>
         Message:
-        <input @bind="messageInput" size="50" disabled="@(!IsConnected)" />
+        <input @bind="messageInput" size="50" @oninput="UserTyping" disabled="@(!IsConnected)" />
     </label>
 </div>
 <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
@@ -20,6 +20,8 @@
 <button @onclick="Typing" disabled="@(!IsConnected)">Typing</button>
 
 <button @onclick="AMessage" disabled="@(!IsConnected)">Anonymous Message</button>
+
+<p>@typingUser</p>
 
 <hr>
 
@@ -35,6 +37,7 @@
     private List<string> messages = new List<string>();
     private string userInput;
     private string messageInput;
+    private string typingUser;
 
     protected override async Task OnInitializedAsync()
     {
@@ -51,18 +54,16 @@
 
         hubConnection.On<string>("UserTyping", (user) =>
         {
-            var typing = $"{user} is typing";
-            messages.Add(typing);
+            typingUser = $"{user} is typing a message...";
             StateHasChanged();
         });
 
-         hubConnection.On<string>("AMessageReceived", (message) =>
+        hubConnection.On<string>("AMessageReceived", (message) =>
         {
-            var Amessage = $" Hacker: {message}";
+            var Amessage = $"Hacker: {message}";
             messages.Add(Amessage);
             StateHasChanged();
         });
-
 
         await hubConnection.StartAsync();
     }
@@ -76,7 +77,13 @@
     async Task AMessage() =>
         await hubConnection.SendAsync("AMessage", userInput);
 
-
+    private async Task UserTyping()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("UserTyping", userInput);
+        }
+    }
 
     public bool IsConnected =>
         hubConnection.State == HubConnectionState.Connected;
