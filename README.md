@@ -11,3 +11,12 @@
  
 
 dotnet-aspnet-codegenerator razorpage -m Football -dc RazorPagesFootballContext -udl -outDir Pages/FootBall --referenceScriptLibraries -sqlite
+
+
+
+
+
+
+dotnet new blazorwasm -ho -o MuhammedAdwanChat
+
+dotnet run --project Server\MuhammedAdwanChat.Server.csproj
