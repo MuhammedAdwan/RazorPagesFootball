@@ -9,5 +9,17 @@ namespace MuhammedAdwanChat.Server.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+        
+        public async Task UserTyping(string user)
+        {
+            await Clients.Others.SendAsync("UserTyping", user);
+        }
+        
+        public async Task AMessage(string user)
+        {
+            await Clients.All.SendAsync("AMessageReceived", user);
+        }
+
+
     }
 }
