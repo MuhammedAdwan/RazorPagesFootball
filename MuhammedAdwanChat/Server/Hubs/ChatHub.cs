@@ -20,6 +20,9 @@ namespace MuhammedAdwanChat.Server.Hubs
             await Clients.All.SendAsync("AMessageReceived", user);
         }
 
-
+        public async Task SendAnonMessage(string message)
+        {
+            await Clients.All.SendAsync("ReceiveAnonMessage", message);
+        }
     }
 }

@@ -58,10 +58,10 @@
             StateHasChanged();
         });
 
-        hubConnection.On<string>("AMessageReceived", (message) =>
+        hubConnection.On<string>("ReceiveAnonMessage", (messageValue) =>
         {
-            var Amessage = $"Hacker: {message}";
-            messages.Add(Amessage);
+            var encodedMsg = $"Anonymous: {messageValue}";
+            messages.Add(encodedMsg);
             StateHasChanged();
         });
 
