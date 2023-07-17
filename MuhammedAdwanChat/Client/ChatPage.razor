@@ -5,14 +5,14 @@
 
 <div class="form-group">
     <label>
-        User:
-        <input @bind="userInput" />
+        Username:
+        <input @bind="userInput" maxlength="63" disabled="@(!IsConnected)" />
     </label>
 </div>
 <div class="form-group">
     <label>
         Message:
-        <input @bind="messageInput" size="50" />
+        <input @bind="messageInput" size="50" disabled="@(!IsConnected)" />
     </label>
 </div>
 <button @onclick="Send" disabled="@(!IsConnected)">Send</button>
@@ -62,8 +62,6 @@
             messages.Add(Amessage);
             StateHasChanged();
         });
-
-
 
 
         await hubConnection.StartAsync();
