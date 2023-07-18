@@ -1,22 +1,44 @@
-# RazorPagesFootball
- 
-# WEB315_Summer23_new
- recreated the repository in github as dotnet 5 is not supported on my laptop
- readded Dr. Majid as a collaborator
- created gitIgnore folder containing obj and bin folders
- modified the welcome page as requested in step 6
- added the date annotation
- installed the EF tools as requested in Week 3 
- Scaffolded the football model
- 
+# WEB315_Summer23_new_Assignment 4
 
-dotnet-aspnet-codegenerator razorpage -m Football -dc RazorPagesFootballContext -udl -outDir Pages/FootBall --referenceScriptLibraries -sqlite
+Creating Chat application using a Hosted Blazor WebAssembly app
 
 
+Deleted my assignment 3 branch and started new one
 
 
+Created a new Blazor WebAssembly app using the following command -> dotnet new blazorwasm -ho -o BlazorWebAssemblySignalRApp
 
 
-dotnet new blazorwasm -ho -o MuhammedAdwanChat
+Added the following NuGet packages to the project -> Microsoft.AspNetCore.SignalR.Client
 
-dotnet run --project Server\MuhammedAdwanChat.Server.csproj
+Added the following code to the Program.cs file to register the SignalR client service: -> dotnet add package Microsoft.AspNetCore.SignalR.Client --version 5.*
+
+used dotnet watch and run to check the app
+
+Wasnt working and i found out that i need to change my location to the server folder and run the server app.
+
+** Committed to github
+
+Created new page called ChatPage
+
+makde the page accessible from the front page.
+
+Added a link to the navigation side bar and moved the contents of the index page to the chat page, and added my name to the chat page.
+
+**Committed to github
+
+added the method to only send a message to a connected user.
+
+Added UserTyping method to warn other users that a user is typing.
+
+Added anonymous message feature so that users can send messages without having a username
+
+**Committed to github
+
+Setted the maximum number of username input to 63 characters.
+
+Disabled the username and message input fields when the user is not connected to the server.
+
+**Committed to github
+
+Adding "User is typing" feature"
