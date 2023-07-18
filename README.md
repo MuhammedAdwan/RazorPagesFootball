@@ -42,3 +42,9 @@ Disabled the username and message input fields when the user is not connected to
 **Committed to github
 
 Adding "User is typing" feature"
+
+Added a handler when Receive Announcement is invoked.
+
+**Committed to github
+
+Added a css file for your ChatPage
