@@ -1,4 +1,8 @@
-﻿@page "/todo"
+﻿@using System.Collections.Generic
+@using System.Linq
+@using System.Text.Json
+@using Microsoft.AspNetCore.Components
+@page "/todo"
 
 <h3>Number of Items todo: @todos.Count(todo => !todo.IsDone) </h3>
 <input placeholder="Somthing todo" @bind="newTodo" />
@@ -12,114 +16,140 @@
 <button @onclick="AddTodo">Add item</button>
 
 
-<ul>
-    @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter ==
-    "notdone" && !todo.IsDone)))
-    {
-        <li>
-            <input type="checkbox" @onclick="(e) => UpdateIsDone(item)" @bind="item.IsDone"> @item.Title
-            <button @onclick="(e) => AddSubItem(item)">Add Sub Items</button>
-            <button @onclick="(e) => DeleteTodo(item)">Delete todo</button>
+    <ul>
+        @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter ==
+        "notdone" && !todo.IsDone)))
+        {
+            <li>
+                <input type="checkbox" @onclick="(e) => UpdateIsDone(item)" @bind="item.IsDone"> @item.Title
+                <button @onclick="(e) => AddSubItem(item)">Add Sub Items</button>
+                <button @onclick="(e) => DeleteTodo(item)">Delete todo</button>
 
 
-            @if (item.SubItems != null)
+                @if (item.SubItems != null)
+                {
+                    <span># of SubItem: @item.SubItems.Count(e => !e.SubIsDone)</span>
+                    <ul>
+                        @foreach (var subitem in item.SubItems)
+                        {
+                            <li>
+                                <input type="checkbox" @bind="subitem.SubIsDone"> @subitem.SubTitle
+                                <button @onclick="(e) => DeleteSubItem(item, subitem)">Delete Sub Item</button>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+
+        <label> Filter</label>
+        <select @bind="filter">
+            <option value="all">All</option>
+            <option value="done">Done</option>
+            <option value="notdone">Not Done</option>
+        </select>
+        <ul>
+            @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter ==
+            "notdone" && !todo.IsDone)))
             {
-                <span># of SubItem: @item.SubItems.Count(e => !e.SubIsDone)</span>
-                <ul>
-                    @foreach (var subitem in item.SubItems)
-                    {
-                        <li>
-                            <input type="checkbox" @bind="subitem.SubIsDone"> @subitem.SubTitle
-                            <button @onclick="(e) => DeleteSubItem(item, subitem)">Delete Sub Item</button>
-                        </li>
-                    }
-                </ul>
+                <li>
+                    <input type="checkbox" @bind="item.IsDone"> @item.Title
+                </li>
             }
-        </li>
-    }
-</ul>
-
-<label> Filter</label>
-<select @bind="filter">
-    <option value="all">All</option>
-    <option value="done">Done</option>
-    <option value="notdone">Not Done</option>
-</select>
-<ul>
-    @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter ==
-    "notdone" && !todo.IsDone)))
-    {
-        <li>
-            <input type="checkbox" @bind="item.IsDone"> @item.Title
-        </li>
-    }
-</ul>
+        </ul>
 
 @code
-{
-    private List<TodoItem> todos = new();
-    private string newTodo;
-    private string filter = "all";
-    private string newTodoDescription;
-    private DateTime newTodoDueDate;
-
-
-    private void AddTodo()
     {
-        if (!string.IsNullOrWhiteSpace(newTodo))
-        {
-            todos.Add(new TodoItem { Title = newTodo, newTodoDescription = newTodoDescription, newTodoDueDate = newTodoDueDate });
-            newTodo = "";
-            newTodoDescription = "";
-            newTodoDueDate = DateTime.Now;
-        }
-    }
-
-    private void AddSubItem(TodoItem currentItem)
-    {
-        if (!string.IsNullOrWhiteSpace(newTodo))
-        {
-            if (currentItem.SubItems == null) currentItem.SubItems = new List<TodoSubItems>();
-            currentItem.SubItems.Add(new TodoSubItems { SubTitle = newTodo });
-            newTodo = "";
-        }
-    }
-
-    private void UpdateIsDone(TodoItem currentItem)
-    {
-        if (currentItem.SubItems != null)
-        {
-            foreach (var subitem in currentItem.SubItems)
+        private List<TodoItem> todos = new();
+        private string newTodo;
+        private string filter = "all";
+        private string newTodoDescription;
+        private DateTime newTodoDueDate;
+        private IJSRuntime JSRuntime { get; set; }
+        private async Task SaveTodosToLocalStorage()
             {
-                subitem.SubIsDone = true;
+                await JSRuntime.InvokeVoidAsync("localStorageInterop.setItem", "todos", JsonSerializer.Serialize(todos));
             }
 
-        }
+        protected override async Task OnInitializedAsync()
+            {
+                await LoadTodosFromLocalStorage();
+            }
 
+        protected async Task LoadTodosFromLocalStorage()
+            {
+                string todosJson = await JSRuntime.InvokeAsync<string>("localStorageInterop.getItem", "todos");
+                if (!string.IsNullOrEmpty(todosJson))
+                {
+                    todos = JsonSerializer.Deserialize<List<TodoItem>>(todosJson);
+                }
+            }
+
+
+    
+
+
+        private void AddTodo()
+            {
+                if (!string.IsNullOrWhiteSpace(newTodo))
+                {
+                    todos.Add(new TodoItem { Title = newTodo, newTodoDescription = newTodoDescription, newTodoDueDate = newTodoDueDate });
+                    newTodo = "";
+                    newTodoDescription = "";
+                    newTodoDueDate = DateTime.Now;
+                    SaveTodosToLocalStorage();
+                }
+            }
+
+        private void AddSubItem(TodoItem currentItem)
+            {
+                if (!string.IsNullOrWhiteSpace(newTodo))
+                {
+                    if (currentItem.SubItems == null) currentItem.SubItems = new List<TodoSubItems>();
+                    currentItem.SubItems.Add(new TodoSubItems { SubTitle = newTodo });
+                    newTodo = "";
+                }
+            }
+
+        private void UpdateIsDone(TodoItem currentItem)
+            {
+                if (currentItem.SubItems != null)
+                {
+                    foreach (var subitem in currentItem.SubItems)
+                    {
+                        subitem.SubIsDone = true;
+                    }
+
+                }
+                SaveTodosToLocalStorage();
+            }
+
+        private void DeleteTodo(TodoItem currentItem)
+            {
+                todos.Remove(currentItem);
+                SaveTodosToLocalStorage();
+            }
+
+        private void DeleteSubItem(TodoItem currentItem, TodoSubItems currentSubItem)
+            {
+                currentItem.SubItems.Remove(currentSubItem);
+                SaveTodosToLocalStorage();
+            }
+
+        public class TodoItem
+            {
+                public string Title { get; set; }
+                public bool IsDone { get; set; }
+                public List<TodoSubItems> SubItems { get; set; }
+                public string newTodoDescription { get; set; }
+                public DateTime newTodoDueDate { get; set; }
+            }
+
+        public class TodoSubItems
+            {
+                public string SubTitle { get; set; }
+                public bool SubIsDone { get; set; }
+            }
     }
 
-    private void DeleteTodo(TodoItem currentItem)
-    {
-        todos.Remove(currentItem);
-    }
-
-    private void DeleteSubItem(TodoItem currentItem, TodoSubItems currentSubItem)
-    {
-        currentItem.SubItems.Remove(currentSubItem);
-    }
-
-    public class TodoItem
-    {
-        public string Title { get; set; }
-        public bool IsDone { get; set; }
-        public List<TodoSubItems> SubItems { get; set; }
-        public string newTodoDescription { get; set; }
-        public DateTime newTodoDueDate { get; set; }
-    }
-
-    public class TodoSubItems
-    {
-        public string SubTitle { get; set; }
-        public bool SubIsDone { get; set; }
-    }
-}
