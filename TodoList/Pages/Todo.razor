@@ -4,6 +4,8 @@
 @using Microsoft.AspNetCore.Components
 @page "/todo"
 
+<link rel="stylesheet" href="css/your-styles.css" />
+
 <h3>Number of Items todo: @todos.Count(todo => !todo.IsDone) </h3>
 <input placeholder="Somthing todo" @bind="newTodo" />
 
