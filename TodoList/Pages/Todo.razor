@@ -28,11 +28,27 @@
     }
 </ul>
 
+<label> Filter</label>
+<select @bind="filter">
+    <option value="all">All</option>
+    <option value="done">Done</option>
+    <option value="notdone">Not Done</option>
+</select>
+<ul>
+    @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter == "notdone" && !todo.IsDone)))
+    {
+        <li>
+            <input type="checkbox" @bind="item.IsDone"> @item.Title
+        </li>
+    }
+</ul>
 
 @code
 {
     private List<TodoItem> todos = new();
     private string newTodo;
+    private string filter = "all";
+
     
     private void AddTodo()
     {
