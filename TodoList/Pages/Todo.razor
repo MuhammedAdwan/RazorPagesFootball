@@ -13,7 +13,8 @@
 
 
 <ul>
-    @foreach (var item in todos)
+    @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter ==
+    "notdone" && !todo.IsDone)))
     {
         <li>
             <input type="checkbox" @onclick="(e) => UpdateIsDone(item)" @bind="item.IsDone"> @item.Title
