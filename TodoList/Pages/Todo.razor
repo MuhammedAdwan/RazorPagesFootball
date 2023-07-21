@@ -15,6 +15,12 @@
 
 <button @onclick="AddTodo">Add item</button>
 
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div>
+        <h2>@errorMessage</h2>
+    </div>
+}
 
     <ul>
         @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter ==
@@ -66,25 +72,50 @@
         private string filter = "all";
         private string newTodoDescription;
         private DateTime newTodoDueDate;
+        private string errorMessage;
 
         private void AddTodo()
-            {
-                if (!string.IsNullOrWhiteSpace(newTodo))
-                {
+        {
+                try 
+                {  
+                    errorMessage = null;             
+                    if (string.IsNullOrWhiteSpace(newTodo))
+                    {
+                        throw new InvalidOperationException("Please enter a todo");
+                    }                
+                    
                     todos.Add(new TodoItem { Title = newTodo, newTodoDescription = newTodoDescription, newTodoDueDate = newTodoDueDate });
                     newTodo = "";
                     newTodoDescription = "";
                     newTodoDueDate = DateTime.Now;
                 }
-            }
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message;
+                }
+        }
 
         private void AddSubItem(TodoItem currentItem)
             {
-                if (!string.IsNullOrWhiteSpace(newTodo))
-                {
+                try{
+
+                    errorMessage = null;             
+                    if (string.IsNullOrWhiteSpace(newTodo))
+                    {
+                        throw new InvalidOperationException("Please enter a todo");
+                    }
+
+                
                     if (currentItem.SubItems == null) currentItem.SubItems = new List<TodoSubItems>();
+
                     currentItem.SubItems.Add(new TodoSubItems { SubTitle = newTodo });
                     newTodo = "";
+                
+                    }
+
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message;
                 }
             }
 
@@ -124,5 +155,5 @@
                 public string SubTitle { get; set; }
                 public bool SubIsDone { get; set; }
             }
-    }
+}
 
