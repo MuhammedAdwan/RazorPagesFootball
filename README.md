@@ -11,3 +11,9 @@
  
 
 dotnet-aspnet-codegenerator razorpage -m Football -dc RazorPagesFootballContext -udl -outDir Pages/FootBall --referenceScriptLibraries -sqlite
+
+
+--------------------------------------------------
+
+dotnet new blazorserver -o TodoList -f net5.0
+dotnet new razorcomponent -n Todopage -o Pages
