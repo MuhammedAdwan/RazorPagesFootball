@@ -19,7 +19,7 @@
                 @foreach (var subitem in item.SubItems) {
                     <li>
                         <input type="checkbox" @bind="subitem.SubIsDone"> @subitem.SubTitle
-                        <button @onclick="(e) => DeleteSubItem(subitem)">Delete Sub Item</button>
+                        <button @onclick="(e) => DeleteSubItem(item, subitem)">Delete Sub Item</button>
                     </li>
                 }
                 </ul>
@@ -69,7 +69,7 @@
         todos.Remove(currentItem);
     }
 
-    private void DeleteSubItem TodoItem currentItem, TodoSubItems currentSubItem)
+    private void DeleteSubItem (TodoItem currentItem, TodoSubItems currentSubItem)
     {
         currentItem.SubItems.Remove(currentSubItem);
     }
