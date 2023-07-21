@@ -1,27 +1,38 @@
 ﻿@page "/todo"
 
 <h3>Number of Items todo: @todos.Count(todo => !todo.IsDone) </h3>
-<input placeholder="Somthing todo" @bind="newTodo"/>
+<input placeholder="Somthing todo" @bind="newTodo" />
 <button @onclick="AddTodo">Add item</button>
 <br>
+<label>To do Description: </label>
+<input placeholder="Description" @bind="newTodoDescription" />
+<br>
+<label>Due Date: </label>
+<input type="date" @bind="newTodoDueDate" />
+<br>
+<button @onclick="AddTodo">Add item</button>
+<br>
+
 <ul>
     @foreach (var item in todos)
     {
         <li>
             <input type="checkbox" @onclick="(e) => UpdateIsDone(item)" @bind="item.IsDone"> @item.Title
-            <button @onclick="(e) => AddSubItem(item)" >Add Sub Items</button>
+            <button @onclick="(e) => AddSubItem(item)">Add Sub Items</button>
             <button @onclick="(e) => DeleteTodo(item)">Delete todo</button>
 
-            
-            @if (item.SubItems != null) {
+
+            @if (item.SubItems != null)
+            {
                 <span># of SubItem: @item.SubItems.Count(e => !e.SubIsDone)</span>
                 <ul>
-                @foreach (var subitem in item.SubItems) {
-                    <li>
-                        <input type="checkbox" @bind="subitem.SubIsDone"> @subitem.SubTitle
-                        <button @onclick="(e) => DeleteSubItem(item, subitem)">Delete Sub Item</button>
-                    </li>
-                }
+                    @foreach (var subitem in item.SubItems)
+                    {
+                        <li>
+                            <input type="checkbox" @bind="subitem.SubIsDone"> @subitem.SubTitle
+                            <button @onclick="(e) => DeleteSubItem(item, subitem)">Delete Sub Item</button>
+                        </li>
+                    }
                 </ul>
             }
         </li>
@@ -35,7 +46,8 @@
     <option value="notdone">Not Done</option>
 </select>
 <ul>
-    @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter == "notdone" && !todo.IsDone)))
+    @foreach (var item in todos.Where(todo => filter == "all" || (filter == "done" && todo.IsDone) || (filter ==
+    "notdone" && !todo.IsDone)))
     {
         <li>
             <input type="checkbox" @bind="item.IsDone"> @item.Title
@@ -48,14 +60,18 @@
     private List<TodoItem> todos = new();
     private string newTodo;
     private string filter = "all";
+    private string newTodoDescription;
+    private DateTime newTodoDueDate;
 
-    
+
     private void AddTodo()
     {
         if (!string.IsNullOrWhiteSpace(newTodo))
         {
-            todos.Add(new TodoItem {Title = newTodo});
-            newTodo="";
+            todos.Add(new TodoItem { Title = newTodo, newTodoDescription = newTodoDescription, newTodoDueDate = newTodoDueDate });
+            newTodo = "";
+            newTodoDescription = "";
+            newTodoDueDate = DateTime.Now;
         }
     }
 
@@ -64,42 +80,46 @@
         if (!string.IsNullOrWhiteSpace(newTodo))
         {
             if (currentItem.SubItems == null) currentItem.SubItems = new List<TodoSubItems>();
-            currentItem.SubItems.Add(new TodoSubItems {SubTitle = newTodo});
-            newTodo="";
+            currentItem.SubItems.Add(new TodoSubItems { SubTitle = newTodo });
+            newTodo = "";
         }
     }
 
     private void UpdateIsDone(TodoItem currentItem)
     {
-        if (currentItem.SubItems != null) {
-            foreach (var subitem in currentItem.SubItems) {
-            subitem.SubIsDone = true;
-        }
+        if (currentItem.SubItems != null)
+        {
+            foreach (var subitem in currentItem.SubItems)
+            {
+                subitem.SubIsDone = true;
+            }
 
         }
-        
+
     }
 
-    private void DeleteTodo (TodoItem currentItem)
+    private void DeleteTodo(TodoItem currentItem)
     {
         todos.Remove(currentItem);
     }
 
-    private void DeleteSubItem (TodoItem currentItem, TodoSubItems currentSubItem)
+    private void DeleteSubItem(TodoItem currentItem, TodoSubItems currentSubItem)
     {
         currentItem.SubItems.Remove(currentSubItem);
     }
 
-    public class TodoItem 
+    public class TodoItem
     {
-        public string Title {get; set;}
-        public bool IsDone {get; set;}
-        public List<TodoSubItems> SubItems {get; set;}
+        public string Title { get; set; }
+        public bool IsDone { get; set; }
+        public List<TodoSubItems> SubItems { get; set; }
+        public string newTodoDescription { get; set; }
+        public DateTime newTodoDueDate { get; set; }
     }
 
-    public class TodoSubItems 
+    public class TodoSubItems
     {
-        public string SubTitle {get; set;}
-        public bool SubIsDone {get; set;}
+        public string SubTitle { get; set; }
+        public bool SubIsDone { get; set; }
     }
 }
