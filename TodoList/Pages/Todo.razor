@@ -66,29 +66,6 @@
         private string filter = "all";
         private string newTodoDescription;
         private DateTime newTodoDueDate;
-        private IJSRuntime JSRuntime { get; set; }
-        private async Task SaveTodosToLocalStorage()
-            {
-                await JSRuntime.InvokeVoidAsync("localStorageInterop.setItem", "todos", JsonSerializer.Serialize(todos));
-            }
-
-        protected override async Task OnInitializedAsync()
-            {
-                await LoadTodosFromLocalStorage();
-            }
-
-        protected async Task LoadTodosFromLocalStorage()
-            {
-                string todosJson = await JSRuntime.InvokeAsync<string>("localStorageInterop.getItem", "todos");
-                if (!string.IsNullOrEmpty(todosJson))
-                {
-                    todos = JsonSerializer.Deserialize<List<TodoItem>>(todosJson);
-                }
-            }
-
-
-    
-
 
         private void AddTodo()
             {
@@ -98,7 +75,6 @@
                     newTodo = "";
                     newTodoDescription = "";
                     newTodoDueDate = DateTime.Now;
-                    SaveTodosToLocalStorage();
                 }
             }
 
@@ -122,19 +98,16 @@
                     }
 
                 }
-                SaveTodosToLocalStorage();
             }
 
         private void DeleteTodo(TodoItem currentItem)
             {
                 todos.Remove(currentItem);
-                SaveTodosToLocalStorage();
             }
 
         private void DeleteSubItem(TodoItem currentItem, TodoSubItems currentSubItem)
             {
                 currentItem.SubItems.Remove(currentSubItem);
-                SaveTodosToLocalStorage();
             }
 
         public class TodoItem
