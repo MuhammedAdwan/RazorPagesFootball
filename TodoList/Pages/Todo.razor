@@ -2,16 +2,15 @@
 
 <h3>Number of Items todo: @todos.Count(todo => !todo.IsDone) </h3>
 <input placeholder="Somthing todo" @bind="newTodo" />
-<button @onclick="AddTodo">Add item</button>
-<br>
+
 <label>To do Description: </label>
 <input placeholder="Description" @bind="newTodoDescription" />
-<br>
+
 <label>Due Date: </label>
 <input type="date" @bind="newTodoDueDate" />
-<br>
+
 <button @onclick="AddTodo">Add item</button>
-<br>
+
 
 <ul>
     @foreach (var item in todos)
